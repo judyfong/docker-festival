@@ -1,0 +1,95 @@
+{
+  "name": "hr2020is",
+
+  "features": [
+    ["vc", "consonant", "vowel", "diph", "silence"],
+    ["place", "bilabial", "dental", "linguolabial", "palatal", "velar", "glottal"],
+    ["manner", "plosive", "fricative", "nasal", "lateral", "trill"],
+    ["voicing", "voiced", "voiceless"],
+
+    ["frontness", "front", "central", "back"],
+    ["closeness", "close", "nearclose", "closemid", "mid", "openmid", "nearopen", "open"],
+    ["roundness", "unrounded", "rounded"],
+
+    ["frontness2", "front", "central", "back"],
+    ["closeness2", "close", "nearclose", "closemid", "mid", "openmid", "nearopen", "open"],
+    ["roundness2", "unrounded", "rounded"],
+
+    ["length", "long", "short"]
+  ],
+
+  "phones": [
+    ["p",   "consonant", "bilabial", "plosive", "voiceless"],
+    ["ph",  "consonant", "bilabial", "plosive", "voiceless"],
+    ["m",   "consonant", "bilabial", "nasal", "voiceless"],
+    ["m0",  "consonant", "bilabial", "nasal", "voiced"],
+
+    ["f",   "consonant", "dental", "fricative", "voiceless"],
+    ["v",   "consonant", "dental", "fricative", "voiceless"],
+
+    ["t",   "consonant", "linguolabial", "plosive", "voiceless"],
+    ["th",  "consonant", "linguolabial", "plosive", "voiceless"],
+    ["6",   "consonant", "linguolabial", "fricative", "voiceless"],
+    ["0",   "consonant", "linguolabial", "fricative", "voiceless"],
+    ["n",   "consonant", "linguolabial", "nasal", "voiceless"],
+    ["n0",  "consonant", "linguolabial", "nasal", "voiced"],
+    ["l",   "consonant", "linguolabial", "lateral", "voiceless"],
+    ["l0",  "consonant", "linguolabial", "lateral", "voiced"],
+    ["r",   "consonant", "linguolabial", "trill", "voiceless"],
+    ["r0",  "consonant", "linguolabial", "trill", "voiced"],
+
+    ["s",   "consonant", "linguolabial", "fricative", "voiceless"],
+
+    ["c",   "consonant", "palatal", "plosive", "voiceless"],
+    ["ch",  "consonant", "palatal", "plosive", "voiceless"],
+    ["j",   "consonant", "palatal", "fricative", "voiceless"],
+    ["cj",  "consonant", "palatal", "fricative", "voiceless"],
+    ["jn",  "consonant", "palatal", "nasal", "voiceless"],
+    ["jn0",  "consonant", "palatal", "nasal", "voiced"],
+
+    ["k",   "consonant", "velar", "plosive", "voiceless"],
+    ["kh",  "consonant", "velar", "plosive", "voiceless"],
+    ["x",   "consonant", "velar", "fricative", "voiceless"],
+    ["yo",  "consonant", "velar", "fricative", "voiceless"],
+    ["nj",  "consonant", "velar", "nasal", "voiceless"],
+    ["nj0", "consonant", "velar", "nasal", "voiced"],
+
+    ["h",   "consonant", "glottal", "fricative", "voiceless"],
+
+    ["i",   "vowel", "front", "close", "unrounded", "short"],
+    ["i:",  "vowel", "front", "close", "unrounded", "long"],
+    ["I",   "vowel", "front", "nearclose", "unrounded", "short"],
+    ["I:",  "vowel", "front", "nearclose", "unrounded", "long"],
+    ["Y",   "vowel", "front", "nearclose", "rounded", "long"],
+    ["Y:",  "vowel", "front", "nearclose", "rounded", "long"],
+    ["Yi",  "vowel", "front", "nearclose", "rounded", "short"],
+    ["ae",  "vowel", "front", "openmid", "rounded", "short"],
+    ["ae:", "vowel", "front", "openmid", "rounded", "long"],
+
+    ["3",   "vowel", "central", "openmid", "unrounded", "short"],
+    ["3:",  "vowel", "central", "openmid", "unrounded", "long"],
+
+    ["u",   "vowel", "back", "close", "rounded", "short"],
+    ["u:",  "vowel", "back", "close", "rounded", "long"],
+    ["C",   "vowel", "back", "openmid", "rounded", "short"],
+    ["C:",  "vowel", "back", "openmid", "rounded", "long"],
+    ["a",   "vowel", "back", "open", "unrounded", "short"],
+    ["a:",  "vowel", "back", "open", "unrounded", "long"],
+    
+    ["Ci",  "diph", "back", "openmid", "rounded", "front", "close", "unrounded", "long"],
+
+    ["ou",  "diph", "back", "openmid", "rounded", "back", "close", "rounded", "short"],
+    ["ou:", "diph", "back", "openmid", "rounded", "back", "close", "rounded", "long"],
+    ["ai",  "diph", "back", "open", "unrounded", "front", "close", "unrounded", "short"],
+    ["ai:", "diph", "back", "open", "unrounded", "front", "close", "unrounded", "long"],
+    ["au",  "diph", "back", "open", "unrounded", "back", "close", "rounded", "short"],
+    ["au:", "diph", "back", "open", "unrounded", "back", "close", "rounded", "long"],
+    ["ay",  "diph", "back", "open", "unrounded", "front", "nearclose", "rounded", "short"],
+    ["ay:", "diph", "back", "open", "unrounded", "front", "nearclose", "rounded", "long"],
+    ["ei",  "diph", "central", "openmid", "unrounded", "front", "close", "unrounded", "short"],
+    ["ei:", "diph", "central", "openmid", "unrounded", "front", "close", "unrounded", "long"],
+
+    ["sil", "silence"],
+    ["pau", "silence"]
+  ]
+}
