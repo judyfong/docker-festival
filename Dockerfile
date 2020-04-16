@@ -30,11 +30,12 @@ ENV LC_ALL C.UTF-8
 ENV OPENFST openfst-1.5.2
 ENV THRAX thrax-1.2.2
 
+RUN echo "Getting protobuf"
 # Fetch, build, and install the Protocol Buffers package
 WORKDIR /usr/local/src
-RUN git clone https://github.com/google/protobuf.git
+RUN git clone -b new_url https://github.com/atliSig/protobuf.git
 WORKDIR /usr/local/src/protobuf
-RUN git reset --hard ca9bbd71d547a05604e8c2bddda66cdba5abe0c4 && \
+RUN \
     ./autogen.sh && \
     ./configure \
       --disable-static \
