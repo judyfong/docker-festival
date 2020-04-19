@@ -1,7 +1,8 @@
 FROM ubuntu:xenial
 MAINTAINER Martin Jansche <mjansche@google.com>
 
-#ADD goog_af_unison_wav_22k.tar /usr/local/src/
+ADD wav_data/lvl_is_f1_16k.tar /usr/local/src/
+ADD wav_data/lvl_is_m1_16k.tar /usr/local/src/
 
 RUN apt-get update && apt-get install -y \
       automake \

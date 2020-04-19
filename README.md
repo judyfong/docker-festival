@@ -1,3 +1,8 @@
+# Notes:
+## Build and run this image
+* Point your terminal to this directory and run e.g. `docker build --tag festival .`
+
+
 # tts-tutorial
 
 Software for the [Text-to-Speech tutorial at SLTU 2016](http://mica.edu.vn/sltu2016/index.php?pid=23). Examples of how to use some of these tools can be found in the Lab Session section of the [slide deck](https://goo.gl/BjmmHt) for the tutorial.

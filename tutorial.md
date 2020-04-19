@@ -31,10 +31,10 @@ After pulling the image, it should now appear under the `images` row in the `Doc
 * Click the image
 * Right click the `latest` pop-under
 * Select `run`
-* A container for the image will now appear under the `containers` row in the `Docker` pane with a green play icon. Right click it and select `Attach Visual Studio Code`.
+* A container for the image will now appear under the `containers` row in the `Docker` pane with a green play icon. Right click it and select `Attach Visual Studio Code`. (Note: in some cases, the container will not start. If that happens, right click the image and select `run interactive`. Refresh the containers pane and follow the instructions below)
 * A new VSC window will open. This will be the code editor for your work.
 * You can use the shell of the newly created container by clicking `Terminal` -> `New Terminal` (or Ctrl+ Shift + `)
-* The contents of the image will now appear under the VSC explorer (Ctrl + Shift + E)
+* The contents of the image should now appear under the VSC explorer (Ctrl + Shift + E). If not press `open folder` (or Ctrl+K Ctrl+O) and navigate to `/usr/local/src`
 * Next time you open up VSC you:
     * Open the `Docker` pane
     * Find your container
