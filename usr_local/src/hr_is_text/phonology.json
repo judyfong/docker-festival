@@ -3,19 +3,20 @@
 
   "features": [
     ["vc", "consonant", "vowel", "diph", "silence"],
-    ["place", "bilabial", "dental", "linguolabial", "palatal", "velar", "glottal"],
-    ["manner", "plosive", "fricative", "nasal", "lateral", "trill"],
-    ["voicing", "voiced", "voiceless"],
 
-    ["frontness", "front", "central", "back"],
-    ["closeness", "close", "nearclose", "closemid", "mid", "openmid", "nearopen", "open"],
-    ["roundness", "unrounded", "rounded"],
+    ["cplace", "bilabial", "dental", "linguolabial", "palatal", "velar", "glottal"],
+    ["ctype", "plosive", "fricative", "nasal", "lateral", "trill"],
+    ["cvox", "voiced", "voiceless"],
 
-    ["frontness2", "front", "central", "back"],
-    ["closeness2", "close", "nearclose", "closemid", "mid", "openmid", "nearopen", "open"],
-    ["roundness2", "unrounded", "rounded"],
+    ["vfrontness", "front", "central", "back"],
+    ["vcloseness", "close", "nearclose", "closemid", "mid", "openmid", "nearopen", "open"],
+    ["vroundness", "unrounded", "rounded"],
 
-    ["length", "long", "short"]
+    ["dfrontness2", "front", "central", "back"],
+    ["dcloseness2", "close", "nearclose", "closemid", "mid", "openmid", "nearopen", "open"],
+    ["droundness2", "unrounded", "rounded"],
+
+    ["vlength", "long", "short"]
   ],
 
   "phones": [
@@ -30,7 +31,7 @@
     ["t",   "consonant", "linguolabial", "plosive", "voiceless"],
     ["th",  "consonant", "linguolabial", "plosive", "voiceless"],
     ["6",   "consonant", "linguolabial", "fricative", "voiceless"],
-    ["0",   "consonant", "linguolabial", "fricative", "voiceless"],
+    ["O",   "consonant", "linguolabial", "fricative", "voiceless"],
     ["n",   "consonant", "linguolabial", "nasal", "voiceless"],
     ["n0",  "consonant", "linguolabial", "nasal", "voiced"],
     ["l",   "consonant", "linguolabial", "lateral", "voiceless"],
