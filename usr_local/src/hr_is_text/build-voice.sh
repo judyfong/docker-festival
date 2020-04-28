@@ -21,8 +21,15 @@ git init
 git config --local user.email root@localhost
 echo wav > .gitignore
 
+
+if [ $VOICE = "f" ]; then
+	VOX=margret
+else
+	VOX=thorsteinn
+fi
+
 # Set up the Festvox Clustergen build:
-$FESTVOXDIR/src/clustergen/setup_cg hr is
+$FESTVOXDIR/src/clustergen/setup_cg lvl is $VOX
 
 # Commit the current state of the directory. This will make it easier to see
 # what changed since we ran setup_cg.
@@ -32,24 +39,25 @@ git commit -q -m 'Setup for Clustergen complete.'
 # Unpack the wave files into the ./wav directory:
 # TODO: Unpack icelandic data
 #../goog_af_unison_wav_22k/unpack.sh wav 2>wav/unpack.log
+exec ls $WAW_SRC/*.wv | xargs wvunpack -m -q -o wav 2>wav/unpack.log
+rename 's/([0-9]+)/m$1/' wav/*.wav
 
-# Configure a 22kHz voice:
-sed -i 's/^(set! framerate .*$/(set! framerate 44100)/' festvox/clustergen.scm 
+# Configure a 16kHz voice:
+sed -i 's/^(set! framerate .*$/(set! framerate 16000)/' festvox/clustergen.scm 
 
 # Set up the prompts that we will train on.
-# TODO: Use transcriptions for icelandic data
 #
 # This could either be the full set of prompts:
-#cp -p ../goog_af_unison_text/txt.done.data etc/
+#cp -p ../data/$VOX/txt.done.data etc/
 #
-# Or it could be a subset of prompts from a single session:
-fgrep 2020-01 ../hr_is_text/txt.done.data > etc/txt.done.data
+# Or it could be a subset of prompts:
+fgrep "( [mf]_01" ../data/$VOX/txt.done.data > etc/txt.done.dat
 #
-# Or it could be a subset of prompts from multiple sessions:
-#fgrep afr_7 ../goog_af_unison_text/txt.done.data > etc/txt.done.data
+# Or it could be a bigger subset of prompts:
+#fgrep "( [mf]_0[0-4]" ../data/$VOX/txt.done.data > etc/txt.done.dat
 
 # Copy the lexicon:
-cp -p ../hr_is_text/lexicon.scm festvox/
+cp -p ../data/lexicon.scm festvox/
 
 # Adjust various configuration files based on the phonology description:
 ../hr_is_text/apply_phonology.py ../hr_is_text/phonology.json .
@@ -57,7 +65,7 @@ cp -p ../hr_is_text/lexicon.scm festvox/
 # Commit the current state of the directory. Looking at the head of the tree
 # will reveal the changes that were made to configure the build for Afrikaans.
 git add --all
-git commit -q -m 'Setup for Icelandic complete.'
+git commit -q -m 'Setup for Icelandic ($VOX) complete.'
 
 # Run the Festvox Clustergen build. This can take several minutes for every 100
 # training prompts. Total running time depends heavily on the number of CPU
@@ -65,8 +73,8 @@ git commit -q -m 'Setup for Icelandic complete.'
 time bin/build_cg_voice 1>build.out 2>build.err
 
 # Synthesize one example sentence.
-echo 'halló ég heiti þorsteinn' |
+echo 'halló _pause ég kann að tala íslendku alveg hnökralaust' |
 ../festival/bin/text2wave \
-  -eval festvox/hr_is_thorsteinn_cg.scm \
-  -eval '(voice_hr_is_thorsteinn_cg)' \
+  -eval festvox/hr_is_${VOX}_cg.scm \
+  -eval "(voice_hr_is_${VOX}_cg)" \
   > example.wav
