@@ -38,23 +38,26 @@ git commit -q -m 'Setup for Clustergen complete.'
 
 # Unpack the wave files into the ./wav directory:
 # TODO: Unpack icelandic data
-#../goog_af_unison_wav_22k/unpack.sh wav 2>wav/unpack.log
-exec ls $WAW_SRC/*.wv | xargs wvunpack -m -q -o wav 2>wav/unpack.log
-rename 's/([0-9]+)/m$1/' wav/*.wav
+wget https://eyra.ru.is/gogn/m1-small.zip
+unzip m1-small.zip 2> unzip.log
+mkdir wav/
+mv audio/*/*.wav wav/
 
 # Configure a 16kHz voice:
 sed -i 's/^(set! framerate .*$/(set! framerate 16000)/' festvox/clustergen.scm 
 
 # Set up the prompts that we will train on.
-#
+# Create transcriptions
+python3 normalize.py info.json txt.complete.data --lobe --scm 
+
 # This could either be the full set of prompts:
-#cp -p ../data/$VOX/txt.done.data etc/
+#cp -p txt.complete.data txt.done.data
 #
 # Or it could be a subset of prompts:
-fgrep "( [mf]_01" ../data/$VOX/txt.done.data > etc/txt.done.dat
+fgrep "( 2019-12-05" txt.complete.data > etc/txt.done.dat
 #
 # Or it could be a bigger subset of prompts:
-#fgrep "( [mf]_0[0-4]" ../data/$VOX/txt.done.data > etc/txt.done.dat
+#fgrep "( 2019-12" txt.complete.data > etc/txt.done.dat
 
 # Copy the lexicon:
 cp -p ../data/lexicon.scm festvox/
