@@ -19,5 +19,5 @@ fi
 echo "$1" |
 python3 normalize.py - - |
 ../festival/bin/text2wave \
-  -eval festvox/hr_is_${VOX}_cg.scm \
-  -eval "(voice_hr_is_${VOX}_cg)" > "$2"
+  -eval festvox/lvl_is_${VOX}_cg.scm \
+  -eval "(voice_lvl_is_${VOX}_cg)" > "$2"

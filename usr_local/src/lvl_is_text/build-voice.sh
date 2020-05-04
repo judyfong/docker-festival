@@ -47,7 +47,7 @@ sed -i 's/^(set! framerate .*$/(set! framerate 16000)/' festvox/clustergen.scm
 
 # Set up the prompts that we will train on.
 # Create transcriptions
-python3 ../hr_is_text/normalize.py info.json txt.complete.data --lobe --scm 
+python3 ../lvl_is_text/normalize.py info.json txt.complete.data --lobe --scm 
 
 # This could either be the full set of prompts:
 #cp -p txt.complete.data etc/txt.done.data
@@ -59,10 +59,10 @@ python3 ../hr_is_text/normalize.py info.json txt.complete.data --lobe --scm
 fgrep "( 2019-12" txt.complete.data > etc/txt.done.data
 
 # Copy the lexicon:
-cp -p ../hr_is_text/lexicon.scm festvox/
+cp -p ../lvl_is_text/lexicon.scm festvox/
 
 # Adjust various configuration files based on the phonology description:
-../hr_is_text/apply_phonology.py ../hr_is_text/phonology.json .
+../lvl_is_text/apply_phonology.py ../lvl_is_text/phonology.json .
 
 # Commit the current state of the directory. Looking at the head of the tree
 # will reveal the changes that were made to configure the build for Afrikaans.
@@ -77,6 +77,6 @@ time bin/build_cg_voice 1>build.out 2>build.err
 # Synthesize one example sentence.
 echo 'halló _pause ég kann að tala íslendku alveg hnökralaust' |
 ../festival/bin/text2wave \
-  -eval festvox/hr_is_${VOX}_cg.scm \
-  -eval "(voice_hr_is_${VOX}_cg)" \
+  -eval festvox/lvl_is_${VOX}_cg.scm \
+  -eval "(voice_lvl_is_${VOX}_cg)" \
   > example.wav
