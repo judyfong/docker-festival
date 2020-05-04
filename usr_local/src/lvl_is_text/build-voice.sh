@@ -48,22 +48,29 @@ sed -i 's/^(set! framerate .*$/(set! framerate 16000)/' festvox/clustergen.scm
 
 # Set up the prompts that we will train on.
 # Create transcriptions
-python3 ../lvl_is_text/normalize.py info.json txt.complete.data --lobe --scm 
+python3 ../lvl_is_text/normalize.py info.json txt.complete.data --lobe --scm
+# Filter out prompts with numbers since we don't have a proper normalizer
+grep -v '"[^"]*[0-9]' txt.complete.data > txt.nonum.data
 
 # This could either be the full set of prompts:
-#cp -p txt.complete.data etc/txt.done.data
+#cp -p txt.nonum.data etc/txt.done.data
 #
 # Or it could be a subset of prompts:
-#fgrep "( 2019-12-05" txt.complete.data > etc/txt.done.data
+#fgrep "( 2019-12-05" txt.nonum.data > etc/txt.done.data
 #
 # Or it could be a bigger subset of prompts:
-fgrep "( 2019-12" txt.complete.data > etc/txt.done.data
+fgrep "( 2019-12" txt.nonum.data > etc/txt.done.data
 
-# Copy the lexicon:
+#Create list of all words in prompts
+python3 ../lvl_is_text/normalize.py info.json "-" --lobe | grep -o "[^ ]*" | sort | uniq > vocabulary.txt
+# TODO: Use g2p to create a lexicon for the vocabulary
+
+# Create a lexicon:
+# Create a compiled scm lexicon from lexicon
 python3 ../lvl_is_text/build_lexicon.py ../lvl_is_text/aipa-map.tsv ../lvl_is_text/framburdarordabok.txt ../lvl_is_text/lexicon2.scm
+#Combine multiple scm lexicons
 echo "MNCL" > festvox/lexicon.scm
 cat ../lvl_is_text/lexicon.scm ../lvl_is_text/lexicon2.scm | fgrep "(" | sort | uniq >> festvox/lexicon.scm
-#cp -p ../lvl_is_text/lexicon.scm festvox/
 
 # Adjust various configuration files based on the phonology description:
 ../lvl_is_text/apply_phonology.py ../lvl_is_text/phonology.json .
