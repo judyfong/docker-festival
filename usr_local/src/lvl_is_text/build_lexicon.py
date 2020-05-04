@@ -27,7 +27,7 @@ def translate(transcription, phoneme_map, delimeter=" "):
 def main(argv):
     if len(argv) != 4:
         sys.stdout.write(
-            f'Usage: {argv[0]} aipa-map.tsv input-lexicon output-lexicon \n')
+            'Usage: {} aipa-map.tsv input-lexicon output-lexicon \n'.format(argv[0]))
         sys.exit(2)
 
     phoneme_map = create_map(argv[1])

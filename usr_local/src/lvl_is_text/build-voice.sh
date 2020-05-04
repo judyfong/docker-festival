@@ -60,7 +60,10 @@ python3 ../lvl_is_text/normalize.py info.json txt.complete.data --lobe --scm
 fgrep "( 2019-12" txt.complete.data > etc/txt.done.data
 
 # Copy the lexicon:
-cp -p ../lvl_is_text/lexicon.scm festvox/
+python3 ../lvl_is_text/build_lexicon.py ../lvl_is_text/aipa-map.tsv ../lvl_is_text/framburdarordabok.txt ../lvl_is_text/lexicon2.scm
+echo "MNCL" > festvox/lexicon.scm
+cat ../lvl_is_text/lexicon.scm ../lvl_is_text/lexicon2.scm | fgrep "(" | sort | uniq >> festvox/lexicon.scm
+#cp -p ../lvl_is_text/lexicon.scm festvox/
 
 # Adjust various configuration files based on the phonology description:
 ../lvl_is_text/apply_phonology.py ../lvl_is_text/phonology.json .
