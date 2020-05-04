@@ -23,9 +23,9 @@ echo wav > .gitignore
 
 
 if [ $VOICE = "f" ]; then
-	VOX=margret
+	VOX=f1
 else
-	VOX=thorsteinn
+	VOX=m1
 fi
 
 # Set up the Festvox Clustergen build:
@@ -38,9 +38,8 @@ git commit -q -m 'Setup for Clustergen complete.'
 
 # Unpack the wave files into the ./wav directory:
 # TODO: Unpack icelandic data
-wget https://eyra.ru.is/gogn/m1-small.zip
-unzip m1-small.zip 2> unzip.log
-mkdir wav/
+wget https://eyra.ru.is/gogn/${VOX}-small.zip
+unzip m1-small.zip 1> unzip.log 2>unzip.err
 mv audio/*/*.wav wav/
 
 # Configure a 16kHz voice:
@@ -48,19 +47,19 @@ sed -i 's/^(set! framerate .*$/(set! framerate 16000)/' festvox/clustergen.scm
 
 # Set up the prompts that we will train on.
 # Create transcriptions
-python3 normalize.py info.json txt.complete.data --lobe --scm 
+python3 ../hr_is_text/normalize.py info.json txt.complete.data --lobe --scm 
 
 # This could either be the full set of prompts:
-#cp -p txt.complete.data txt.done.data
+#cp -p txt.complete.data etc/txt.done.data
 #
 # Or it could be a subset of prompts:
-fgrep "( 2019-12-05" txt.complete.data > etc/txt.done.dat
+#fgrep "( 2019-12-05" txt.complete.data > etc/txt.done.data
 #
 # Or it could be a bigger subset of prompts:
-#fgrep "( 2019-12" txt.complete.data > etc/txt.done.dat
+fgrep "( 2019-12" txt.complete.data > etc/txt.done.data
 
 # Copy the lexicon:
-cp -p ../data/lexicon.scm festvox/
+cp -p ../hr_is_text/lexicon.scm festvox/
 
 # Adjust various configuration files based on the phonology description:
 ../hr_is_text/apply_phonology.py ../hr_is_text/phonology.json .

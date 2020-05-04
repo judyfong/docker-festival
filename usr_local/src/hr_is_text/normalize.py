@@ -66,14 +66,14 @@ def main():
             fname, extension = data["recording_info"]["recording_fname"].rsplit(".", 1)
             text = data["text_info"]["text"]
         else:
-            fname = f"line-{i}"
+            fname = "line-{}".format(i)
             text = data.strip()
         normalized = normalize(text)
 
         if args.scm:
             fout.write(scm_format_str.format(fname, normalized))
         else:
-            fout.write(f"{normalized}\n")
+            fout.write("{}\n".format(normalized))
         #extra.write("\n".join(text.split(" ")) + "\n")
 
 if __name__ == "__main__":
