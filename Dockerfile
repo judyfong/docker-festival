@@ -1,9 +1,6 @@
 FROM ubuntu:xenial
 MAINTAINER Martin Jansche <mjansche@google.com>
 
-ADD wav_data/lvl_is_f1_16k.tar /usr/local/src/
-ADD wav_data/lvl_is_m1_16k.tar /usr/local/src/
-
 RUN apt-get update && apt-get install -y \
       automake \
       bc \
@@ -20,7 +17,7 @@ RUN apt-get update && apt-get install -y \
       python \
       python-dev \
       python-setuptools \
-      python3
+      python3 \
       unzip \
       wavpack \
       wget \

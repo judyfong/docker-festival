@@ -41,6 +41,7 @@ git commit -q -m 'Setup for Clustergen complete.'
 wget https://eyra.ru.is/gogn/${VOX}-small.zip
 unzip m1-small.zip 1> unzip.log 2>unzip.err
 mv audio/*/*.wav wav/
+echo "*.zip" >> .gitignore
 
 # Configure a 16kHz voice:
 sed -i 's/^(set! framerate .*$/(set! framerate 16000)/' festvox/clustergen.scm 
@@ -67,7 +68,7 @@ cp -p ../lvl_is_text/lexicon.scm festvox/
 # Commit the current state of the directory. Looking at the head of the tree
 # will reveal the changes that were made to configure the build for Afrikaans.
 git add --all
-git commit -q -m 'Setup for Icelandic ($VOX) complete.'
+git commit -q -m "Setup for Icelandic ($VOX) complete."
 
 # Run the Festvox Clustergen build. This can take several minutes for every 100
 # training prompts. Total running time depends heavily on the number of CPU
