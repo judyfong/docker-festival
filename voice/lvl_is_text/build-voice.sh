@@ -48,6 +48,12 @@ sed -i 's/^(set! framerate .*$/(set! framerate 16000)/' festvox/clustergen.scm
 # Set up the prompts that we will train on.
 # Create transcriptions
 python3 ../lvl_is_text/normalize.py info.json txt.complete.data --lobe --scm
+
+# Add string in front of promt names
+# (Festival doed not seem to handle names that start with a number)
+sed -i 's/( [^\.]*\./( is/' txt.complete.data
+rename 's/wav\/[^\.]*\./wav\/is/' wav/*.wav
+
 # Filter out prompts with numbers since we don't have a proper normalizer
 grep -v '"[^"]*[0-9]' txt.complete.data > txt.nonum.data
 
@@ -55,10 +61,7 @@ grep -v '"[^"]*[0-9]' txt.complete.data > txt.nonum.data
 #cp -p txt.nonum.data etc/txt.done.data
 #
 # Or it could be a subset of prompts:
-#fgrep "( 2019-12-05" txt.nonum.data > etc/txt.done.data
-#
-# Or it could be a bigger subset of prompts:
-fgrep "( 2019-12" txt.nonum.data > etc/txt.done.data
+head -n1000 txt.nonum.data > etc/txt.done.data
 
 # Create a lexicon:
 
@@ -66,12 +69,18 @@ fgrep "( 2019-12" txt.nonum.data > etc/txt.done.data
 python3 ../lvl_is_text/normalize.py info.json "-" --lobe | grep -o "[^ ]*" | sort | uniq > vocabulary.txt
 
 cp ../lvl_is_text/framburdarordabok.txt lexicon.txt
-g2p.py --train lexicon.txt --devel 5% --write-model model-1 1> g2p-1.log 2>g2p-1.err
-g2p.py --model model-1 --ramp-up --train lexicon.txt --devel 5% --write-model model-2 1> g2p-2.log 2>g2p-2.err
+
+# Train g2p model:
+g2p.py --train lexicon.txt --devel 50% --write-model model-1 1> g2p-1.log 2>g2p-1.err
+#g2p.py --model model-1 --ramp-up --train lexicon.txt --devel 5% --write-model model-2 1> g2p-2.log 2>g2p-2.err
 #g2p.py --model model-2 --ramp-up --train lexicon.txt --devel 5% --write-model model-3 1> g2p-3.log 2>g2p-3.err
 #g2p.py --model model-3 --ramp-up --train lexicon.txt --devel 5% --write-model model-4 1> g2p-4.log 2>g2p-4.err
+g2p.py --model model-1 --apply vocabulary.txt > lexicon-prompts.txt
 
-g2p.py --model model-2 --apply vocabulary.txt > lexicon-prompts.txt
+# Or download a trained model:
+# ATT: This is a python3 model and will not work in this container (running py2)
+#wget https://eyra.ru.is/gogn/ipd_clean_slt2018.mdl
+#g2p.py --model ipd_clean_slt2018.mdl --apply vocabulary.txt > lexicon-prompts.txt
 
 # Create a compiled scm lexicon from lexicon
 python3 ../lvl_is_text/build_lexicon.py ../lvl_is_text/aipa-map.tsv lexicon.txt lexicon.scm
@@ -95,7 +104,7 @@ git commit -q -m "Setup for Icelandic ($VOX) complete."
 time bin/build_cg_voice 1>build.out 2>build.err
 
 # Synthesize one example sentence.
-echo 'halló _pause ég kann að tala íslendku alveg hnökralaust' |
+echo 'halló _pause ég kann að tala íslensku alveg hnökralaust' |
 ../festival/bin/text2wave \
   -eval festvox/lvl_is_${VOX}_cg.scm \
   -eval "(voice_lvl_is_${VOX}_cg)" \

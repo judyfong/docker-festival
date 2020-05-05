@@ -31,6 +31,7 @@ def normalize(transcription):
         .replace("-", "")\
         .replace("“", "")\
         .replace("–", "")\
+        .replace(";", "")\
         .lower()
     return transcription
 
