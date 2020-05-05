@@ -37,7 +37,6 @@ git add --all
 git commit -q -m 'Setup for Clustergen complete.'
 
 # Unpack the wave files into the ./wav directory:
-# TODO: Unpack icelandic data
 wget https://eyra.ru.is/gogn/${VOX}-small.zip
 unzip m1-small.zip 1> unzip.log 2>unzip.err
 mv audio/*/*.wav wav/
@@ -61,16 +60,26 @@ grep -v '"[^"]*[0-9]' txt.complete.data > txt.nonum.data
 # Or it could be a bigger subset of prompts:
 fgrep "( 2019-12" txt.nonum.data > etc/txt.done.data
 
+# Create a lexicon:
+
 #Create list of all words in prompts
 python3 ../lvl_is_text/normalize.py info.json "-" --lobe | grep -o "[^ ]*" | sort | uniq > vocabulary.txt
-# TODO: Use g2p to create a lexicon for the vocabulary
 
-# Create a lexicon:
+cp ../lvl_is_text/framburdarordabok.txt lexicon.txt
+g2p.py --train lexicon.txt --devel 5% --write-model model-1 1> g2p-1.log 2>g2p-1.err
+g2p.py --model model-1 --ramp-up --train lexicon.txt --devel 5% --write-model model-2 1> g2p-2.log 2>g2p-2.err
+#g2p.py --model model-2 --ramp-up --train lexicon.txt --devel 5% --write-model model-3 1> g2p-3.log 2>g2p-3.err
+#g2p.py --model model-3 --ramp-up --train lexicon.txt --devel 5% --write-model model-4 1> g2p-4.log 2>g2p-4.err
+
+g2p.py --model model-2 --apply vocabulary.txt > lexicon-prompts.txt
+
 # Create a compiled scm lexicon from lexicon
-python3 ../lvl_is_text/build_lexicon.py ../lvl_is_text/aipa-map.tsv ../lvl_is_text/framburdarordabok.txt ../lvl_is_text/lexicon2.scm
+python3 ../lvl_is_text/build_lexicon.py ../lvl_is_text/aipa-map.tsv lexicon.txt lexicon.scm
+python3 ../lvl_is_text/build_lexicon.py ../lvl_is_text/aipa-map.tsv lexicon-prompts.txt lexicon-prompts.scm
+
 #Combine multiple scm lexicons
 echo "MNCL" > festvox/lexicon.scm
-cat ../lvl_is_text/lexicon.scm ../lvl_is_text/lexicon2.scm | fgrep "(" | sort | uniq >> festvox/lexicon.scm
+cat lexicon.scm lexicon-prompts.scm | fgrep "(" | sort | uniq >> festvox/lexicon.scm
 
 # Adjust various configuration files based on the phonology description:
 ../lvl_is_text/apply_phonology.py ../lvl_is_text/phonology.json .
