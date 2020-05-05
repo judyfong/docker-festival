@@ -1,5 +1,5 @@
 FROM ubuntu:xenial
-MAINTAINER Martin Jansche <mjansche@google.com>
+MAINTAINER Þorsteinn Daði Gunnarsson <thorsteinng@ru.is>
 
 RUN apt-get update && apt-get install -y \
       automake \
