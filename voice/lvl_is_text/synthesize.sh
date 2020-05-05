@@ -17,7 +17,7 @@ else
 fi
 
 echo "$1" |
-python3 normalize.py - - |
+python3 ../lvl_is_text/normalize.py - - |
 ../festival/bin/text2wave \
   -eval festvox/lvl_is_${VOX}_cg.scm \
   -eval "(voice_lvl_is_${VOX}_cg)" > "$2"

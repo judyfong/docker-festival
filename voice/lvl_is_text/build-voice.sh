@@ -22,7 +22,7 @@ git config --local user.email root@localhost
 echo wav > .gitignore
 
 
-if [ $VOICE = "f" ]; then
+if [ -v VOICE ] && [ $VOICE = "f" ]; then
 	VOX=f1
 else
 	VOX=m1
