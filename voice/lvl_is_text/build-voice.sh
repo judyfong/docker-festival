@@ -38,7 +38,7 @@ git commit -q -m 'Setup for Clustergen complete.'
 
 # Unpack the wave files into the ./wav directory:
 wget https://eyra.ru.is/gogn/${VOX}-small.zip
-unzip m1-small.zip 1> unzip.log 2>unzip.err
+unzip $VOX-small.zip 1> unzip.log 2>unzip.err
 echo "*.zip" >> .gitignore
 echo "*.wav" >> .gitignore
 echo "audio/" >> .gitignore
