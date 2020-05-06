@@ -54,8 +54,8 @@ python3 ../lvl_is_text/normalize.py info.json txt.complete.data --lobe --scm
 sed -i 's/( [^\.]*\./( is/' txt.complete.data
 rename 's/wav\/[^\.]*\./wav\/is/' wav/*.wav
 
-# Filter out prompts with numbers since we don't have a proper normalizer
-grep -v '"[^"]*[0-9]' txt.complete.data > txt.nonum.data
+# Filter out prompts with numbers or a 'c' since we don't have a proper normalizer
+grep -v '"[^"]*[0-9c]' txt.complete.data > txt.nonum.data
 
 # This could either be the full set of prompts:
 #cp -p txt.nonum.data etc/txt.done.data
