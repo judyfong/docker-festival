@@ -120,7 +120,7 @@ RUN ./configure && make
 WORKDIR /usr/local/src
 RUN rm -fr protobuf re2 $OPENFST pynini-0.9 $THRAX sparrowhawk SPTK-3.6
 
-RUN apt-get update && apt-get install -y swig
+RUN apt-get update && apt-get install -y swig sox
 RUN pip install --upgrade pip && pip install numpy && pip install git+https://github.com/sequitur-g2p/sequitur-g2p@master
 
 COPY voice/lvl_is_text /usr/local/src/lvl_is_text
