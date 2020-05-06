@@ -71,16 +71,15 @@ python3 ../lvl_is_text/normalize.py info.json "-" --lobe | grep -o "[^ ]*" | sor
 cp ../lvl_is_text/framburdarordabok.txt lexicon.txt
 
 # Train g2p model:
-g2p.py --train lexicon.txt --devel 50% --write-model model-1 1> g2p-1.log 2>g2p-1.err
-#g2p.py --model model-1 --ramp-up --train lexicon.txt --devel 5% --write-model model-2 1> g2p-2.log 2>g2p-2.err
-#g2p.py --model model-2 --ramp-up --train lexicon.txt --devel 5% --write-model model-3 1> g2p-3.log 2>g2p-3.err
-#g2p.py --model model-3 --ramp-up --train lexicon.txt --devel 5% --write-model model-4 1> g2p-4.log 2>g2p-4.err
-g2p.py --model model-1 --apply vocabulary.txt > lexicon-prompts.txt
+#g2p.py --train lexicon.txt --devel 50% --write-model model-1 --encoding utf-8 1> g2p-1.log 2>g2p-1.err
+#g2p.py --model model-1 --ramp-up --train lexicon.txt --devel 5% --write-model model-2 --encoding utf-8 1> g2p-2.log 2>g2p-2.err
+#g2p.py --model model-2 --ramp-up --train lexicon.txt --devel 5% --write-model model-3 --encoding utf-8 1> g2p-3.log 2>g2p-3.err
+#g2p.py --model model-3 --ramp-up --train lexicon.txt --devel 5% --write-model model-4 --encoding utf-8 1> g2p-4.log 2>g2p-4.err
+#g2p.py --model model-1 --apply vocabulary.txt --encoding utf-8 > lexicon-prompts.txt
 
 # Or download a trained model:
-# ATT: This is a python3 model and will not work in this container (running py2)
-#wget https://eyra.ru.is/gogn/ipd_clean_slt2018.mdl
-#g2p.py --model ipd_clean_slt2018.mdl --apply vocabulary.txt > lexicon-prompts.txt
+wget https://eyra.ru.is/gogn/ipd_clean_slt2018.mdl
+g2p.py --model ipd_clean_slt2018.mdl --apply vocabulary.txt --encoding utf-8 > lexicon-prompts.txt
 
 # Create a compiled scm lexicon from lexicon
 python3 ../lvl_is_text/build_lexicon.py ../lvl_is_text/aipa-map.tsv lexicon.txt lexicon.scm
