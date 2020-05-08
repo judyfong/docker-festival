@@ -66,10 +66,10 @@ rename 's/wav\/[^\.]*\./wav\/is/' wav/*.wav
 grep -v '"[^"]*[0-9c]' txt.complete.data > txt.nonum.data
 
 # This could either be the full set of prompts:
-cp -p txt.nonum.data etc/txt.done.data
+#cp -p txt.nonum.data etc/txt.done.data
 #
 # Or it could be a subset of prompts:
-#head -n1000 txt.nonum.data > etc/txt.done.data
+head -n1000 txt.nonum.data > etc/txt.done.data
 
 # Create a lexicon:
 
