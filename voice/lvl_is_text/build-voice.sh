@@ -43,11 +43,8 @@ echo "*.zip" >> .gitignore
 echo "*.wav" >> .gitignore
 echo "audio/" >> .gitignore
 
-for i in audio/*/*.wav
-do
-	sox "$i" -r 16000 -c 1 -b 16 "wav/$(basename -s .wav "$i").wav" 1> sox.log 2> sox.err
-done
-
+# Power normalize and format wavs (16KHz, 16bit, RIFF format)
+bin/get_wavs audio/*/*.wav
 
 # Configure a 16kHz voice:
 sed -i 's/^(set! framerate .*$/(set! framerate 16000)/' festvox/clustergen.scm 
