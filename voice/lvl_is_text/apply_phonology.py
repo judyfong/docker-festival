@@ -109,7 +109,67 @@ def MakeLexiconScm(writer, inst_lang, vox):
 (lex.create "%s")
 (lex.set.phoneset "%s")
 (lex.set.compile.file "festvox/lexicon.scm")
+(lex.set.lts.method "g2p")
 (lex.select "%s")
+
+(define (debug obj)
+  (format stderr "Debug: %l\n" str)
+)
+
+(set! str_phone_map
+  (load "festvox/%s_%s_aipa.scm" t)
+)
+
+(define (str_to_phoneme ord)
+  (set! ret (cadr (assoc ord str_phone_map)))
+  (if (not ret)
+    (format t "Warning: Phoneme for unicode ordinal %d not found\n" ord))
+  ret)
+
+(define (g2ppy word)
+  (system
+    (format
+      nil
+      "g2p.py --model ipd_clean_slt2018.mdl --encoding utf-8 -w %s | awk '{print \"\\\"\"$0\"\\\"\"}' > ttmp.scm\n"
+      word
+    )
+  )
+  (set! pp (load "ttmp.scm" t))
+  (string-after (car pp) "  ")
+)
+
+(define (string-split str delim)
+  (set! out (list))
+  (while (not (string-equal (string-after str delim) ""))
+    (set! out (append out (list (string-before str delim))))
+    (set! str (string-after str "delim))
+  )
+  (append out (list str))
+)
+
+(define (strs_to_phoneme phoneme_strs)
+  "Given a string of phonemes seperated by a space
+return a list of the phoneme symbols"
+  (set! phones (string-split phoneme_strs " "))
+  (set! phones_out (list))
+  (while (nth 0 phones)
+    (set! next (car phones))
+    (set! phones (cdr phones))
+    (set! phones_out (append phones_out (list (str_to_phoneme next))))
+  )
+  phones_out
+)
+
+(define (g2p word features)
+  "g2p
+Call g2p.py for unknown words."
+    (set! str_phone_list (g2ppy word))
+    (set! 
+      phones 
+      (strs_to_phoneme str_phone_list)
+    )
+    (list word features (list (list phones 1)))
+)
 
 (define (%s_%s::select_lexicon)
   "(%s_%s::select_lexicon)
@@ -127,12 +187,20 @@ Reset lexicon information."
        inst_lang,
        inst_lang, vox,
        inst_lang, vox,
+       inst_lang, vox,
        inst_lang,
        inst_lang,
        inst_lang, vox,
        inst_lang, vox,
        inst_lang, vox)
   )
+  return
+
+def MakeLexiconScmMap(writer, inst_lang, vox, ipa2scm):
+  content = ";;; Automatically generated. Edit with caution.\n"
+  for ipa_sign, scm_sign in ipa2scm:
+    scm.append('\n("%s", %s)' % ipa_sign, scm_sign)
+  writer.write(content)
   return
 
 
@@ -737,6 +805,10 @@ def main(argv):
   with codecs.open('%s/festvox/%s_%s_lexicon.scm' % (build_dir, inst_lang, vox),
                    'w', 'utf-8') as writer:
     MakeLexiconScm(writer, inst_lang, vox)
+
+  with codecs.open('%s/festvox/%s_%s_aipa.scm' % (build_dir, inst_lang, vox),
+                   'w', 'utf-8') as writer:
+    MakeLexiconScmMap(writer, inst_lang, vox, phonology['ipa2scm'])
 
   phones = [phone[0] for phone in phonology['phones']]
   features = [(feature[0], ' '.join(feature[1:] + ['0']))
