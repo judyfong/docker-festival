@@ -197,10 +197,9 @@ Reset lexicon information."
   return
 
 def MakeLexiconScmMap(writer, inst_lang, vox, ipa2scm):
-  content = ";;; Automatically generated. Edit with caution.\n"
+  writer.write(";;; Automatically generated. Edit with caution.")
   for ipa_sign, scm_sign in ipa2scm:
-    scm.append('\n("%s", %s)' % ipa_sign, scm_sign)
-  writer.write(content)
+    writer.write('\n("%s", %s)' % ipa_sign, scm_sign)
   return
 
 
