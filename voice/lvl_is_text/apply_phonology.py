@@ -113,7 +113,7 @@ def MakeLexiconScm(writer, inst_lang, vox):
 (lex.select "%s")
 
 (define (debug obj)
-  (format stderr "Debug: %l\n" str)
+  (format stderr "Debug: %%l\n" obj)
 )
 
 (set! str_phone_map
@@ -123,26 +123,26 @@ def MakeLexiconScm(writer, inst_lang, vox):
 (define (str_to_phoneme ord)
   (set! ret (cadr (assoc ord str_phone_map)))
   (if (not ret)
-    (format t "Warning: Phoneme for unicode ordinal %d not found\n" ord))
+    (format t "Warning: Phoneme for unicode ordinal %%d not found\n" ord))
   ret)
 
 (define (g2ppy word)
   (system
     (format
       nil
-      "g2p.py --model ipd_clean_slt2018.mdl --encoding utf-8 -w %s | awk '{print \"\\\"\"$0\"\\\"\"}' > ttmp.scm\n"
+      "g2p.py --model ipd_clean_slt2018.mdl --encoding utf-8 -w %%s | awk '{print \"\\\"\"$0\"\\\"\"}' > ttmp.scm\n"
       word
     )
   )
   (set! pp (load "ttmp.scm" t))
-  (string-after (car pp) "  ")
+  (string-after (car pp) "\t")
 )
 
 (define (string-split str delim)
   (set! out (list))
   (while (not (string-equal (string-after str delim) ""))
     (set! out (append out (list (string-before str delim))))
-    (set! str (string-after str "delim))
+    (set! str (string-after str delim))
   )
   (append out (list str))
 )
@@ -197,9 +197,9 @@ Reset lexicon information."
   return
 
 def MakeLexiconScmMap(writer, inst_lang, vox, ipa2scm):
-  writer.write(";;; Automatically generated. Edit with caution.")
+  writer.write(";;; Automatically generated. Edit with caution.\n")
   for ipa_sign, scm_sign in ipa2scm:
-    writer.write('\n("%s", %s)' % ipa_sign, scm_sign)
+    writer.write('("%s" %s)\n' % (ipa_sign, scm_sign))
   return
 
 
