@@ -71,8 +71,8 @@ head -n1000 txt.nonum.data > etc/txt.done.data
 
 #Create list of all words in prompts
 python3 ../lvl_is_text/normalize.py info.json "-" --lobe | grep -o "[^ ]*" | sort | uniq > vocabulary.txt
-
-cp ../lvl_is_text/framburdarordabok.txt lexicon.txt
+# Add vocabulary
+cut -f1 ../lvl_is_text/framburdarordabok.txt general-vocabulary.txt
 
 # Train g2p model:
 #g2p.py --train lexicon.txt --devel 50% --write-model model-1 --encoding utf-8 1> g2p-1.log 2>g2p-1.err
@@ -84,6 +84,7 @@ cp ../lvl_is_text/framburdarordabok.txt lexicon.txt
 # Or download a trained model:
 wget https://eyra.ru.is/gogn/ipd_clean_slt2018.mdl
 g2p.py --model ipd_clean_slt2018.mdl --apply vocabulary.txt --encoding utf-8 > lexicon-prompts.txt
+g2p.py --model ipd_clean_slt2018.mdl --apply general-vocabulary.txt --encoding utf-8 > lexicon.txt
 
 # Create a compiled scm lexicon from lexicon
 python3 ../lvl_is_text/build_lexicon.py ../lvl_is_text/aipa-map.tsv lexicon.txt lexicon.scm
