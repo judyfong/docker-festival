@@ -3,7 +3,7 @@
 ## Features
 
 | name | values |  note |
-|--|--|
+|-|-|-|
 | vc | consonant, vowel, diph, silence | |
 | cplace | bilabial, dental, linguolabial, palatal, velar, glottal | |
 | ctype | plosive, fricative, nasal, lateral, trill | |
