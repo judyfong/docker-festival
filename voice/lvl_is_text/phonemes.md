@@ -174,4 +174,5 @@ IPA to ASCII only alphabet
 ### Contrubutors
 
 Flóki Larsen
+
 Þorsteinn Daði Gunnarsson (<thorsteinng@ru.is>)
