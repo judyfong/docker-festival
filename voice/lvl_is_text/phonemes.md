@@ -14,6 +14,7 @@
 | dfrontness | front, central, back | For second sound in diphone |
 | dcloseness | close, nearclose, closemid, mid, openmid, nearopen, open | For second sound in diphone |
 | droundness | unrounded, rounded | For second sound in diphone |
+| vlength | long, short | |
 
 
 ## Phonemes
