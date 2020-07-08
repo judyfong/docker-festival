@@ -171,7 +171,7 @@ IPA to ASCII only alphabet
 | hliðarhljóð 	| lateral 	|
 | sveifluhljóð 	| trill 	|
 
-### Contrubutors
+### Contributors
 
 Flóki Larsen
 
