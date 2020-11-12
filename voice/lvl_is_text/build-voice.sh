@@ -58,7 +58,8 @@ sed -i 's/^(set! framerate .*$/(set! framerate 16000)/' festvox/clustergen.scm
 
 # Set up the prompts that we will train on.
 # Create transcriptions
-python3 ../lvl_is_text/normalize.py ../ext/index.tsv txt.complete.data --scm
+cat ../ext/index.tsv | awk -F'\t' '{ print $2 }' > prompts.txt
+python3 ../lvl_is_text/normalize.py prompts.txt txt.complete.data --scm
 
 # Add string in front of promt names
 # (Festival doed not seem to handle names that start with a number)
@@ -77,7 +78,7 @@ head -n1000 txt.nonum.data > etc/txt.done.data
 # Create a lexicon:
 
 #Create list of all words in prompts
-python3 ../lvl_is_text/normalize.py info.json "-" --lobe | grep -o "[^ ]*" | sort | uniq > vocabulary.txt
+python3 ../lvl_is_text/normalize.py prompts.txt "-" | grep -o "[^ ]*" | sort | uniq > vocabulary.txt
 # Add vocabulary
 cut -f1 ../lvl_is_text/framburdarordabok.txt general-vocabulary.txt
 
