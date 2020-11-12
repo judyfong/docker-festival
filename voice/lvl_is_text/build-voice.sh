@@ -80,7 +80,7 @@ head -n1000 txt.nonum.data > etc/txt.done.data
 #Create list of all words in prompts
 python3 ../lvl_is_text/normalize.py prompts.txt "-" | grep -o "[^ ]*" | sort | uniq > vocabulary.txt
 # Add vocabulary
-cut -f1 ../lvl_is_text/framburdarordabok.txt general-vocabulary.txt
+cut -f1 ../lvl_is_text/framburdarordabok.txt > general-vocabulary.txt
 
 # Train g2p model:
 #g2p.py --train lexicon.txt --devel 50% --write-model model-1 --encoding utf-8 1> g2p-1.log 2>g2p-1.err
