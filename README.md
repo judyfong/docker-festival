@@ -1,6 +1,7 @@
 # Notes:
 ## Build and run this image
 * Point your terminal to this directory and run e.g. `docker build --tag festival .`
+* `docker run --rm -it festival /bin/bash`
 
 
 # tts-tutorial

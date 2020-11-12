@@ -23,9 +23,9 @@ echo wav > .gitignore
 
 
 if [ -v VOICE ] && [ $VOICE = "f" ]; then
-	VOX=f1
+	VOX=b
 else
-	VOX=m1
+	VOX=a
 fi
 
 # Set up the Festvox Clustergen build:
@@ -37,21 +37,28 @@ git add --all
 git commit -q -m 'Setup for Clustergen complete.'
 
 # Unpack the wave files into the ./wav directory:
-wget https://eyra.ru.is/gogn/${VOX}-small.zip
-unzip $VOX-small.zip 1> unzip.log 2>unzip.err
-echo "*.zip" >> .gitignore
+# wget https://eyra.ru.is/gogn/${VOX}-small.zip
+# unzip $VOX-small.zip 1> unzip.log 2>unzip.err
+# echo "*.zip" >> .gitignore
+# echo "*.wav" >> .gitignore
+# echo "audio/" >> .gitignore
+# 
+# # Power normalize and format wavs (16KHz, 16bit, RIFF format)
+# bin/get_wavs audio/*/*.wav
+
+# Unpack the wave files into the ./wav directory:
 echo "*.wav" >> .gitignore
 echo "audio/" >> .gitignore
-
-# Power normalize and format wavs (16KHz, 16bit, RIFF format)
-bin/get_wavs audio/*/*.wav
+# 
+# # Power normalize and format wavs (16KHz, 16bit, RIFF format)
+bin/get_wavs ../ext/audio/*.wav
 
 # Configure a 16kHz voice:
 sed -i 's/^(set! framerate .*$/(set! framerate 16000)/' festvox/clustergen.scm 
 
 # Set up the prompts that we will train on.
 # Create transcriptions
-python3 ../lvl_is_text/normalize.py info.json txt.complete.data --lobe --scm
+python3 ../lvl_is_text/normalize.py ../ext/index.tsv txt.complete.data --scm
 
 # Add string in front of promt names
 # (Festival doed not seem to handle names that start with a number)
@@ -82,9 +89,11 @@ cut -f1 ../lvl_is_text/framburdarordabok.txt general-vocabulary.txt
 #g2p.py --model model-1 --apply vocabulary.txt --encoding utf-8 > lexicon-prompts.txt
 
 # Or download a trained model:
-wget https://eyra.ru.is/gogn/ipd_clean_slt2018.mdl
-g2p.py --model ipd_clean_slt2018.mdl --apply vocabulary.txt --encoding utf-8 > lexicon-prompts.txt
-g2p.py --model ipd_clean_slt2018.mdl --apply general-vocabulary.txt --encoding utf-8 > lexicon.txt
+# wget https://eyra.ru.is/gogn/ipd_clean_slt2018.mdl
+# g2p.py --model ipd_clean_slt2018.mdl --apply vocabulary.txt --encoding utf-8 > lexicon-prompts.txt
+# g2p.py --model ipd_clean_slt2018.mdl --apply general-vocabulary.txt --encoding utf-8 > lexicon.txt
+g2p.py --model ../ext/ipd_clean_slt2018.mdl --apply vocabulary.txt --encoding utf-8 > lexicon-prompts.txt
+g2p.py --model ../ext/ipd_clean_slt2018.mdl --apply general-vocabulary.txt --encoding utf-8 > lexicon.txt
 
 # Create a compiled scm lexicon from lexicon
 python3 ../lvl_is_text/build_lexicon.py ../lvl_is_text/aipa-map.tsv lexicon.txt lexicon.scm

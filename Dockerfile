@@ -124,6 +124,7 @@ RUN apt-get update && apt-get install -y swig sox
 RUN pip install --upgrade pip && pip install numpy && pip install git+https://github.com/sequitur-g2p/sequitur-g2p@master
 
 COPY voice/lvl_is_text /usr/local/src/lvl_is_text
+COPY ext /usr/local/src/ext
 #WORKDIR /usr/local/src/m1
 #CMD ../lvl_hr_text/build-voice.sh
 
